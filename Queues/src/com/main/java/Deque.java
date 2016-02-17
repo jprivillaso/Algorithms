@@ -124,19 +124,35 @@ public class Deque<Item> implements Iterable<Item> {
 
 		ListIterator iterator = new ListIterator();
 		Item newFirstItem = null;
-		Item currentItem  = null;
+		Node previousNode = last;
+		Node currentNode  = last;
 		
 		while (iterator.hasNext()) {
 			
-			newFirstItem = currentItem;
-			currentItem = iterator.next();
+			if (currentNode.next == null && previousNode != currentNode) {
+				
+				newFirstItem = previousNode.item;
+				first = previousNode;
+				first.item = newFirstItem;
+				first.next = null;
+				
+			} else {
+				
+				Node previousCurrentNode = currentNode;
+				currentNode = currentNode.next;
+				previousNode = previousCurrentNode;
+				
+			}
+			
+			iterator.next();
 			
 		}
 
 		N--;
 		
 		if (N == 0) {
-			last = first;
+			last = null;
+			first = null;
 		}
 		
 		return newFirstItem;
@@ -178,21 +194,19 @@ public class Deque<Item> implements Iterable<Item> {
 		s.addFirst("C");
 		s.addLast("D");
 		
-		System.out.println(s.first.item);
-		System.out.println(s.last.item);
-		
 		s.removeLast();
 		
 		System.out.println("====");
 		System.out.println(s.last.item);
 
 		s.removeFirst();
+		s.removeFirst();
+		s.removeFirst();
 		
-		System.out.println("====");
-		System.out.println(s.first.item);
+		System.out.println(s.size());
+//		System.out.println(s.first.item);
 		
 		/*if (args != null && args.length > 0) {
-
 			
 			for (int i = 0; i < args.length; i++) {
 
