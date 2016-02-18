@@ -3,9 +3,6 @@ package com.main.java;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-import com.main.java.Deque.ListIterator;
-import com.main.java.Deque.Node;
-
 import edu.princeton.cs.algs4.StdRandom;
 
 public class RandomizedQueue<Item> implements Iterable<Item> {
@@ -119,6 +116,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 				currentNode = currentNode.next;
 				
 			}
+			
 			
 
 				if (currentNode.next == null) {
