@@ -110,26 +110,26 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 			Node currentNode = first;
 			int itemToRemove = StdRandom.uniform(1, N+1);
 			
-			for (int i = 1; i <= itemToRemove; i++) {
+			for (int i = 1; i < itemToRemove; i++) {
 				
 				previousNode = currentNode;
 				currentNode = currentNode.next;
+				iter.next();
 				
 			}
 			
+			if (currentNode.next != null) {
+				previousNode.next = currentNode.next;
+			} else {
+				previousNode.next = null;
+			}
 			
-
-				if (currentNode.next == null) {
-					last = previousNode;
-					last.next = null;
-				} else {
-
-					Node temp = currentNode;
-					currentNode = currentNode.next;
-					previousNode = temp;
-
-				}
-
+			if (itemToRemove == N) {
+				last = previousNode;
+			} else if (itemToRemove == 1) {
+				first = currentNode.next;
+			}
+			
 			
 			N--;
 			return currentNode.item;
@@ -153,6 +153,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 	}
 
 	public static void main(String[] args) {
+		
 	}
 
 }
