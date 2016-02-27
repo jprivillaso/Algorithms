@@ -28,7 +28,6 @@ public class Point implements Comparable<Point> {
 	 *            the <em>y</em>-coordinate of the point
 	 */
 	public Point(int x, int y) {
-		/* DO NOT MODIFY */
 		this.x = x;
 		this.y = y;
 	}
@@ -37,7 +36,6 @@ public class Point implements Comparable<Point> {
 	 * Draws this point to standard draw.
 	 */
 	public void draw() {
-		/* DO NOT MODIFY */
 		StdDraw.point(x, y);
 	}
 
@@ -49,7 +47,6 @@ public class Point implements Comparable<Point> {
 	 *            the other point
 	 */
 	public void drawTo(Point that) {
-		/* DO NOT MODIFY */
 		StdDraw.line(this.x, this.y, that.x, that.y);
 	}
 
@@ -61,12 +58,12 @@ public class Point implements Comparable<Point> {
 	 * Double.POSITIVE_INFINITY if the line segment is vertical; and
 	 * Double.NEGATIVE_INFINITY if (x0, y0) and (x1, y1) are equal.
 	 *
-	 * @param that
+	 * @param pointToCompare
 	 *            the other point
 	 * @return the slope between this point and the specified point
 	 */
-	public double slopeTo(Point that) {
-		return 0d;
+	public double slopeTo(Point pointToCompare) {
+		return (pointToCompare.y - y) / (pointToCompare.x - x);
 	}
 
 	/**
@@ -82,9 +79,21 @@ public class Point implements Comparable<Point> {
 	 *         greater than the argument point
 	 */
 	public int compareTo(Point that) {
-		return 0;
+		
+		if (that.y == this.y) { // Horizontal segment
+			return 0;
+		} else if (that.x == this.x) {
+			return (int) Double.POSITIVE_INFINITY;
+		} else if (((that.y - this.y) / (that.x - this.x)) < 0) {
+			return (int) Double.NEGATIVE_INFINITY;
+		} else if (this.y < that.y || this.y == that.y && this.x < that.x) {
+			return -1;
+		} else {
+			return 1;
+		}
+		
 	}
-
+	
 	/**
 	 * Compares two points by the slope they make with this point. The slope is
 	 * defined as in the slopeTo() method.
@@ -92,7 +101,27 @@ public class Point implements Comparable<Point> {
 	 * @return the Comparator that defines this ordering on points
 	 */
 	public Comparator<Point> slopeOrder() {
-		return null;
+		
+		return new Comparator<Point>() {
+
+			@Override
+			public int compare(Point pointA, Point pointB) {
+				
+				if (pointB.y == pointA.y) { // Horizontal segment
+					return 0;
+				} else if (pointB.x == pointA.x) {
+					return (int) Double.POSITIVE_INFINITY;
+				} else if (((pointB.y - pointA.y) / (pointB.x - pointA.x)) < 0) {
+					return (int) Double.NEGATIVE_INFINITY;
+				} else if (pointA.y < pointB.y || pointA.y == pointB.y && pointA.x < pointB.x) {
+					return -1;
+				} else {
+					return 1;
+				}
+				
+			}
+			
+		};
 	}
 
 	/**
@@ -103,7 +132,6 @@ public class Point implements Comparable<Point> {
 	 * @return a string representation of this point
 	 */
 	public String toString() {
-		/* DO NOT MODIFY */
 		return "(" + x + ", " + y + ")";
 	}
 
@@ -111,6 +139,11 @@ public class Point implements Comparable<Point> {
 	 * Unit tests the Point data type.
 	 */
 	public static void main(String[] args) {
-		/* YOUR CODE HERE */
+		
+		Point a = new Point(1, 5);
+		Point b = new Point(1, 4);
+
+		System.out.println(a.compareTo(b));
+		
 	}
 }
